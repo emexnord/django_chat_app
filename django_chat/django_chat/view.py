@@ -34,14 +34,14 @@ def send_message(request):
     return JsonResponse({"status": "error", "message": "Invalid request method."})
 
 
-# @login_required
-# def get_messages(request, room_name):
-#     """
-#     Retrieve chat messages for a specific room.
-#     """
-#     messages = ChatMessage.objects.filter(room_name=room_name).order_by('timestamp')
-#     messages_data = [
-#         {'user': msg.user.username, 'message': msg.message, 'timestamp': msg.timestamp}
-#         for msg in messages
-#     ]
-#     return JsonResponse({'status': 'success', 'messages': messages_data})
+@login_required
+def get_messages(request, room_name):
+    """
+    Retrieve chat messages for a specific room.
+    """
+    messages = ChatMessage.objects.filter(room_name=room_name).order_by('timestamp')
+    messages_data = [
+        {'user': msg.user.username, 'message': msg.message, 'timestamp': msg.timestamp}
+        for msg in messages
+    ]
+    return JsonResponse({'status': 'success', 'messages': messages_data})
