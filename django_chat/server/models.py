@@ -93,24 +93,4 @@ class Channel(models.Model):
         validators=[validate_image_file_extension],
     )
 
-    def save(self, *args, **kwargs):
-        self.name = self.name.lower()
-        if self.id:
-            existing = get_object_or_404(Catagory, id=self.id)
-            if existing.icon != self.icon:
-                existing.icon.delete(save=False)
-            if existing.banner != self.banner:
-                existing.banner.delete(save=False)
-
-        super(Channel, self).save(*args, **kwargs)
-
-    @receiver(models.signals.pre_delete, sender="server.Catagory")
-    def catagory_delete_files(sender, instance, **kwargs):
-        for field in instance._meta.fields:
-            if field.name == "icon" or field.name == "banner":
-                file = getattr(instance, field.name)
-                if file:
-                    file.delete(save=False)
-
-    def __str__(self):
-        return self.name
+    
