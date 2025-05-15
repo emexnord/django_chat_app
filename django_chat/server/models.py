@@ -69,28 +69,3 @@ class Server(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-
-class Channel(models.Model):
-    name = models.CharField(max_length=100)
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="channel_owner"
-    )
-    topic = models.CharField(max_length=250, blank=True, null=True)
-    server = models.ForeignKey(
-        Server, on_delete=models.CASCADE, related_name="channel_server"
-    )
-    banner = models.ImageField(
-        upload_to=server_banner_upload_path,
-        null=True,
-        blank=True,
-        validators=[validate_image_file_extension],
-    )
-    icon = models.ImageField(
-        upload_to=server_icon_upload_path,
-        null=True,
-        blank=True,
-        validators=[validate_image_file_extension],
-    )
-
-    
