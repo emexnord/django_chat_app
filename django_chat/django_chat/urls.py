@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
@@ -11,9 +10,8 @@ router = DefaultRouter()
 router.register("api/server/select", ServerListView)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/docs/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/docs/schema/ui/', SpectacularSwaggerView.as_view(), name='swagger-ui'),
+    path("admin/", admin.site.urls),
+    path("api/docs/schema/", SpectacularAPIView.as_view(), name="schema"),
 ] + router.urls
 
 if settings.DEBUG:
