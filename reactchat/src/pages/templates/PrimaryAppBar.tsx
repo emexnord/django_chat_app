@@ -1,31 +1,41 @@
-import { AppBar, Box, Drawer, IconButton, Link, Toolbar, Typography, useMediaQuery } from "@mui/material"
-import { useTheme } from "@mui/material/styles"
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Box,
+  Drawer,
+  IconButton,
+  Link,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
 
-const PrimaryAppBar = () =>{
-    const [sideMenu, setSideMenu] = useState(false)
-    const theme = useTheme();
-    const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+const PrimaryAppBar = () => {
+  const [sideMenu, setSideMenu] = useState(false);
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
-    useEffect(() => {
-        if (isLargeScreen && sideMenu){
-            setSideMenu(false)
-        }
-    }, [isLargeScreen])
-
-    const toggleDrawer = (open:boolean) => (event:React.MouseEvent) => {
-        setSideMenu(open)
+  useEffect(() => {
+    if (isLargeScreen && sideMenu) {
+      setSideMenu(false);
     }
+  }, [isLargeScreen]);
 
-    return (
-        <AppBar 
-            sx={{
-                zIndex:(theme) => theme.zIndex.drawer + 2, // (theme) => theme.zIndex.drawer + 1
-                backgroundColor: theme.palette.background.default, 
-                borderBottom: `1px solid ${theme.palette.divider}`
-            }}>
-            <Toolbar variant="dense"
+  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
+    setSideMenu(open);
+  };
+
+  return (
+    <AppBar
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 2, // (theme) => theme.zIndex.drawer + 1
+        backgroundColor: theme.palette.background.default,
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      }}
+    >
+      {/* <Toolbar variant="dense"
             sx={{
                 height: theme.primaryAppBar.height, 
                 minHeight: theme.primaryAppBar.height,
@@ -56,9 +66,9 @@ const PrimaryAppBar = () =>{
                         Home
                     </Typography>
                 </Link>
-            </Toolbar>
-        </AppBar>
-    )
-}
+            </Toolbar> */}
+    </AppBar>
+  );
+};
 
-export default PrimaryAppBar
+export default PrimaryAppBar;
