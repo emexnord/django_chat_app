@@ -35,38 +35,44 @@ const PrimaryAppBar = () => {
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
     >
-      {/* <Toolbar variant="dense"
-            sx={{
-                height: theme.primaryAppBar.height, 
-                minHeight: theme.primaryAppBar.height,
-            }}>
-                <Box sx={{display: {xs:"block", sm:"none"}}}>
-                    <IconButton
-                        color="inherit" 
-                        aria-label="open drawer" 
-                        edge="start" 
-                        onClick={toggleDrawer(!sideMenu)}
-                        sx={{mr:2}}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                </Box>
+      <Toolbar
+        variant="dense"
+        sx={{
+          height: theme.primaryAppBar.height,
+          minHeight: theme.primaryAppBar.height,
+        }}
+      >
+        <Box sx={{ display: { xs: "block", sm: "none" } }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={toggleDrawer(!sideMenu)}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Box>
 
-                <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
-                    {[...Array(100)].map((_, i) => (
-                        <Typography key={i} paragraph>
-                            {i + 1}
-                        </Typography>
-                    ))}
-                </Drawer>
-                
-                <Link href="/" underline="none" color='inherit'>
-                    <Typography variant="h6" noWrap component="div"
-                    sx={{display:{fontWeight: 700, letterSpacing: "-0.5px"}}}>
-                        Home
-                    </Typography>
-                </Link>
-            </Toolbar> */}
+        <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
+          {[...Array(100)].map((_, i) => (
+            <Typography key={i} paragraph>
+              {i + 1}
+            </Typography>
+          ))}
+        </Drawer>
+
+        <Link href="/" underline="none" color="inherit">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { fontWeight: 700, letterSpacing: "-0.5px" } }}
+          >
+            Home
+          </Typography>
+        </Link>
+      </Toolbar>
     </AppBar>
   );
 };

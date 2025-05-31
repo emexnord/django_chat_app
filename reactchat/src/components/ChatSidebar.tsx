@@ -68,5 +68,19 @@ return (
     </Sidebar>
 );
 };
-
+const ChatSidebarHistory: React.FC = () => (
+    <SidebarSection>
+        <span className="text-xs text-muted-foreground mb-2 block">
+            History
+        </span>
+        <div className="flex flex-col gap-1">
+            {chatHistory.map((chat) => (
+                <SidebarItem key={chat.id} className="flex items-center">
+                    <MessageSquareIcon className="w-4 h-4 mr-2" />
+                    {chat.title}
+                </SidebarItem>
+            ))}
+        </div>
+    </SidebarSection>
+);
 export default ChatSidebar;
