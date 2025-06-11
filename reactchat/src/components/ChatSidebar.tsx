@@ -43,25 +43,7 @@ return (
                 </div>
             </div>
         </SidebarHeader>
-        <SidebarContent>
-            <SidebarSection>
-                <SidebarButton className="w-full mb-4" variant="default">
-                    <PlusIcon className="w-4 h-4 mr-2" />
-                    New Chat
-                </SidebarButton>
-                <span className="text-xs text-muted-foreground mb-2 block">
-                    History
-                </span>
-                <div className="flex flex-col gap-1">
-                    {chatHistory.map((chat) => (
-                        <SidebarItem key={chat.id} className="flex items-center">
-                            <MessageSquareIcon className="w-4 h-4 mr-2" />
-                            {chat.title}
-                        </SidebarItem>
-                    ))}
-                </div>
-            </SidebarSection>
-        </SidebarContent>
+        
         <SidebarFooter>
             <span className="text-xs text-muted-foreground">© 2024 Chat App</span>
         </SidebarFooter>
