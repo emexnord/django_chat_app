@@ -69,7 +69,7 @@ const PrimaryAppBar = () => {
             component="div"
             sx={{ display: { fontWeight: 700, letterSpacing: "-0.5px" } }}
           >
-            Home
+            Home Page
           </Typography>
         </Link>
       </Toolbar>
