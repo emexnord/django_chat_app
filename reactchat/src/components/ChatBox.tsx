@@ -62,7 +62,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ onClose }) => {
           background: "#fafbfc",
         }}
       >
-        {/* Chat messages go here */}
       </div>
       <div
         style={{
