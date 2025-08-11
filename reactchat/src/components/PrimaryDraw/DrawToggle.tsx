@@ -21,9 +21,6 @@ const DrawToggle: React.FC<Props> = ({
         justifyContent: "center",
       }}
     >
-      {/* <IconButton onClick={open? handleDrawerClose : handleDrawerOpen}>
-                {open ? <ChevronLeft /> : <ChevronRight />}
-            </IconButton> */}
     </Box>
   );
 };

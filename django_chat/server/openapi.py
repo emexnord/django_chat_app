@@ -13,4 +13,8 @@ completion = client.chat.completions.create(
   ]
 )
 
-print(completion.choices[0].message)
+
+for choice in completion.choices:
+    print(choice.message)
+
+print("choices", completion.choices)
