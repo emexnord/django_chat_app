@@ -27,6 +27,10 @@ class Category(models.Model):
         blank=True,
         validators=[validate_image_file_extension],
     )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    slug = models.SlugField(max_length=120, unique=True, blank=True, null=True)
 
     @property
     def icon_url(self):
@@ -39,7 +43,6 @@ class Category(models.Model):
             existing = get_object_or_404(Category, id=self.id)
             if existing.icon != self.icon:
                 existing.icon.delete(save=False)
-
         super(Category, self).save(*args, **kwargs)
 
     @receiver(models.signals.pre_delete, sender="server.Category")
@@ -66,6 +69,23 @@ class Server(models.Model):
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL, related_name="server_members"
     )
+    icon = models.FileField(
+        upload_to=server_icon_upload_path,
+        null=True,
+        blank=True,
+        validators=[validate_image_file_extension],
+    )
+    banner = models.FileField(
+        upload_to=server_banner_upload_path,
+        null=True,
+        blank=True,
+        validators=[validate_image_file_extension],
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_public = models.BooleanField(default=True)
+    rules = models.TextField(blank=True, null=True)
+    invite_code = models.CharField(max_length=50, blank=True, null=True, unique=True)
 
     def __str__(self):
         return str(self.name)
