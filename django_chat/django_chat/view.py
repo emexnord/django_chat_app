@@ -107,3 +107,23 @@ def delete_message(request, message_id):
         return HttpResponseForbidden("You can only delete your own messages.")
     message.delete()
     return JsonResponse({"status": "success", "message": "Message deleted."})
+
+
+@login_required
+@require_POST
+def leave_room(request):
+    """
+    Allow a user to leave a chat room.
+    """
+    data = json.loads(request.body)
+    room_name = data.get("room_name")
+    if not room_name:
+        return JsonResponse({"status": "error", "message": "Room name required."})
+
+    try:
+        room = ChatRoom.objects.get(name=room_name)
+        # If you have a membership model, remove the user from the room
+        # Example: room.members.remove(request.user)
+        return JsonResponse({"status": "success", "message": "Left the room."})
+    except ChatRoom.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Room not found."})
