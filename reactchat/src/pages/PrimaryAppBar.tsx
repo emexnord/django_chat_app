@@ -3,14 +3,30 @@ import {
   Box,
   Drawer,
   IconButton,
-  Link,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Toolbar,
   Typography,
   useMediaQuery,
+  Link,
+  Divider,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useEffect, useState } from "react";
+import HomeIcon from "@mui/icons-material/Home";
+import ChatIcon from "@mui/icons-material/Chat";
+import InfoIcon from "@mui/icons-material/Info";
+import { useState, useEffect } from "react";
+
+const drawerWidth = 240;
+
+const menuItems = [
+  { text: "Home", icon: <HomeIcon />, href: "/" },
+  { text: "Chats", icon: <ChatIcon />, href: "/chats" },
+  { text: "About", icon: <InfoIcon />, href: "/about" },
+];
 
 const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false);
@@ -21,58 +37,131 @@ const PrimaryAppBar = () => {
     if (isLargeScreen && sideMenu) {
       setSideMenu(false);
     }
-  }, [isLargeScreen]);
+  }, [isLargeScreen, sideMenu]);
 
-  const toggleDrawer = (open: boolean) => (event: React.MouseEvent) => {
-    setSideMenu(open);
-  };
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setSideMenu(open);
+    };
+
+  const drawerContent = (
+    <Box
+      sx={{
+        width: drawerWidth,
+        pt: 2,
+      }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <Typography variant="h6" sx={{ px: 2, pb: 1, fontWeight: 700 }}>
+        Menu
+      </Typography>
+      <Divider />
+      <List>
+        {menuItems.map((item) => (
+          <ListItem
+            button
+            key={item.text}
+            component={Link}
+            href={item.href}
+            underline="none"
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
     <AppBar
+      position="sticky"
+      elevation={1}
       sx={{
-        zIndex: (theme) => theme.zIndex.drawer + 2, // (theme) => theme.zIndex.drawer + 1
-        backgroundColor: theme.palette.background.default,
+        zIndex: (theme) => theme.zIndex.drawer + 2,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
     >
       <Toolbar
         variant="dense"
         sx={{
-          height: theme.primaryAppBar.height,
-          minHeight: theme.primaryAppBar.height,
+          height: theme.primaryAppBar?.height || 56,
+          minHeight: theme.primaryAppBar?.height || 56,
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: { xs: "block", sm: "none" } }}>
-          <IconButton
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {!isLargeScreen && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={toggleDrawer(true)}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Link
+            href="/"
+            underline="none"
             color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={toggleDrawer(!sideMenu)}
-            sx={{ mr: 2 }}
+            sx={{ display: "flex", alignItems: "center" }}
           >
-            <MenuIcon />
-          </IconButton>
-        </Box>
-
-        <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
-          {[...Array(100)].map((_, i) => (
-            <Typography key={i} paragraph>
-              {i + 1}
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ fontWeight: 700, letterSpacing: "-0.5px" }}
+            >
+              React Chat
             </Typography>
-          ))}
-        </Drawer>
-
-        <Link href="/" underline="none" color="inherit">
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { fontWeight: 700, letterSpacing: "-0.5px" } }}
-          >
-            Home Page
-          </Typography>
-        </Link>
+          </Link>
+        </Box>
+        {isLargeScreen && (
+          <Box sx={{ display: "flex", gap: 2 }}>
+            {menuItems.map((item) => (
+              <Link
+                key={item.text}
+                href={item.href}
+                underline="none"
+                color="inherit"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: 1,
+                  transition: "background 0.2s",
+                  "&:hover": {
+                    background: theme.palette.action.hover,
+                  },
+                }}
+              >
+                {item.icon}
+                <Typography variant="body1" sx={{ ml: 1 }}>
+                  {item.text}
+                </Typography>
+              </Link>
+            ))}
+          </Box>
+        )}
       </Toolbar>
+      <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
+        {drawerContent}
+      </Drawer>
     </AppBar>
   );
 };

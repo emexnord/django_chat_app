@@ -1,7 +1,7 @@
 import { Box, CssBaseline } from "@mui/material";
 import PrimaryAppBar from "./PrimaryAppBar";
 import PrimaryDraw from "./PrimaryDraw";
-import SecondaryDraw from "./templates/SecondaryDraw";
+import SecondaryDraw from "./SecondaryDraw";
 import Main from "./Main";
 
 const Home = () => {
