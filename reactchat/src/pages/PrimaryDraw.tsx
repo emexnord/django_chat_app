@@ -4,10 +4,16 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  IconButton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import DrawToggle from "../components/PrimaryDraw/DrawToggle";
 import MuiDrawer from "@mui/material/Drawer";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const PrimaryDraw = () => {
   const theme = useTheme();
@@ -15,6 +21,7 @@ const PrimaryDraw = () => {
   const [open, setOpen] = useState(!below600);
 
   const openedMixin = () => ({
+    width: theme.primaryDraw.width,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -23,19 +30,19 @@ const PrimaryDraw = () => {
   });
 
   const closedMixin = () => ({
+    width: theme.primaryDraw.closed,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    width: theme.primaryDraw.closed,
   });
 
-  const Drawer = styled(
-    MuiDrawer,
-    {}
-  )(({ theme, open }) => ({
+  const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
     width: theme.primaryDraw.width,
+    flexShrink: 0,
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     ...(open && {
@@ -52,12 +59,8 @@ const PrimaryDraw = () => {
     setOpen(!below600);
   }, [below600]);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerOpen = () => setOpen(true);
+  const handleDrawerClose = () => setOpen(false);
 
   return (
     <Drawer
@@ -67,31 +70,43 @@ const PrimaryDraw = () => {
         sx: {
           mt: `${theme.primaryAppBar.height}px`,
           height: `calc(100vh - ${theme.primaryAppBar.height}px)`,
-          width: theme.primaryDraw.width,
+          boxShadow: 3,
+          borderRight: `1px solid ${theme.palette.divider}`,
         },
       }}
     >
-      <Box>
-        <Box
-          sx={{
-            position: "absolute",
-            tip: 0,
-            right: 0,
-            p: 0,
-            width: open ? "auto" : "100%",
-          }}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: open ? "space-between" : "center",
+          px: 2,
+          py: 1,
+          minHeight: 56,
+          borderBottom: `1px solid ${theme.palette.divider}`,
+        }}
+      >
+        {open && (
+          <Typography variant="h6" noWrap>
+            Menu
+          </Typography>
+        )}
+        <IconButton
+          onClick={open ? handleDrawerClose : handleDrawerOpen}
+          size="small"
         >
-          <DrawToggle
-            open={open}
-            handleDrawerClose={handleDrawerClose}
-            handleDrawerOpen={handleDrawerOpen}
-          />
-          {[...Array(100)].map((_, i) => (
-            <Typography key={i} paragraph>
-              {i + 1}
-            </Typography>
+          {open ? <ChevronLeftIcon /> : <MenuIcon />}
+        </IconButton>
+      </Box>
+      <Divider />
+      <Box sx={{ overflowY: "auto", flex: 1 }}>
+        <List>
+          {[...Array(20)].map((_, i) => (
+            <ListItem button key={i}>
+              <ListItemText primary={`Item ${i + 1}`} />
+            </ListItem>
           ))}
-        </Box>
+        </List>
       </Box>
     </Drawer>
   );

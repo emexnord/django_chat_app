@@ -4,7 +4,7 @@ import {
   Drawer,
   IconButton,
   List,
-  ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   Toolbar,
@@ -12,6 +12,8 @@ import {
   useMediaQuery,
   Link,
   Divider,
+  Avatar,
+  Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -19,6 +21,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ChatIcon from "@mui/icons-material/Chat";
 import InfoIcon from "@mui/icons-material/Info";
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -32,6 +35,7 @@ const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false);
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("sm"));
+  const location = useLocation();
 
   useEffect(() => {
     if (isLargeScreen && sideMenu) {
@@ -67,16 +71,20 @@ const PrimaryAppBar = () => {
       <Divider />
       <List>
         {menuItems.map((item) => (
-          <ListItem
-            button
+          <ListItemButton
             key={item.text}
             component={Link}
             href={item.href}
-            underline="none"
+            selected={location.pathname === item.href}
+            sx={{
+              borderRadius: 1,
+              mx: 1,
+              my: 0.5,
+            }}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />
-          </ListItem>
+          </ListItemButton>
         ))}
       </List>
     </Box>
@@ -85,7 +93,7 @@ const PrimaryAppBar = () => {
   return (
     <AppBar
       position="sticky"
-      elevation={1}
+      elevation={2}
       sx={{
         zIndex: (theme) => theme.zIndex.drawer + 2,
         backgroundColor: theme.palette.background.paper,
@@ -102,14 +110,14 @@ const PrimaryAppBar = () => {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           {!isLargeScreen && (
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={toggleDrawer(true)}
-              sx={{ mr: 2 }}
+              sx={{ mr: 1 }}
             >
               <MenuIcon />
             </IconButton>
@@ -124,40 +132,49 @@ const PrimaryAppBar = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ fontWeight: 700, letterSpacing: "-0.5px" }}
+              sx={{ fontWeight: 800, letterSpacing: "-0.5px" }}
             >
               React Chat
             </Typography>
           </Link>
         </Box>
         {isLargeScreen && (
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 1 }}>
             {menuItems.map((item) => (
-              <Link
+              <Button
                 key={item.text}
                 href={item.href}
-                underline="none"
-                color="inherit"
+                startIcon={item.icon}
+                variant={location.pathname === item.href ? "contained" : "text"}
+                color={location.pathname === item.href ? "primary" : "inherit"}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  px: 1.5,
-                  py: 0.5,
-                  borderRadius: 1,
-                  transition: "background 0.2s",
+                  borderRadius: 2,
+                  fontWeight: 600,
+                  textTransform: "none",
+                  background:
+                    location.pathname === item.href
+                      ? theme.palette.action.selected
+                      : "none",
                   "&:hover": {
-                    background: theme.palette.action.hover,
+                    background:
+                      location.pathname === item.href
+                        ? theme.palette.action.selected
+                        : theme.palette.action.hover,
                   },
                 }}
               >
-                {item.icon}
-                <Typography variant="body1" sx={{ ml: 1 }}>
-                  {item.text}
-                </Typography>
-              </Link>
+                {item.text}
+              </Button>
             ))}
           </Box>
         )}
+        <Box sx={{ display: "flex", alignItems: "center", ml: 2 }}>
+          <Avatar
+            sx={{ width: 32, height: 32, bgcolor: theme.palette.primary.main }}
+          >
+            U
+          </Avatar>
+        </Box>
       </Toolbar>
       <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
         {drawerContent}
