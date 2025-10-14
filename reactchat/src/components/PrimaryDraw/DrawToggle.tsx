@@ -7,11 +7,7 @@ type Props = {
   handleDrawerOpen: () => void;
 };
 
-const DrawToggle: React.FC<Props> = ({
-  open,
-  handleDrawerClose,
-  handleDrawerOpen,
-}) => {
+const DrawToggle: React.FC<Props> = () => {
   return (
     <Box
       sx={{
@@ -20,8 +16,7 @@ const DrawToggle: React.FC<Props> = ({
         alignItems: "center",
         justifyContent: "center",
       }}
-    >
-    </Box>
+    ></Box>
   );
 };
 
