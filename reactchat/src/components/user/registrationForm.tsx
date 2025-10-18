@@ -30,6 +30,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister }) => {
     onRegister?.(form);
   };
 
+  const handleResend = () => {
+    // Logic to resend OTP
+    await fetch("/api/resend-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: form.email }),
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: "0 auto" }}>
       <h2>Register</h2>

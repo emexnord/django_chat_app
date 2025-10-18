@@ -33,6 +33,17 @@ const OtpPopup: React.FC<OtpPopupProps> = ({ email, onVerify, onClose }) => {
     onVerify(otpValue);
   };
 
+  const handleResend = () => {
+    // Logic to resend OTP
+    await fetch("/api/resend-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+  };
+
   return (
     <div
       style={{
